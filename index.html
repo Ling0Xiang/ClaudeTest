@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking Master - 2D Cooking Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="ui-overlay">
+            <div id="score-panel">
+                <div>Score: <span id="score">0</span></div>
+                <div>Money: $<span id="money">0</span></div>
+                <div>Day: <span id="day">1</span></div>
+                <div>Time: <span id="timer">60</span>s</div>
+            </div>
+            <div id="instructions">
+                <h3>Controls:</h3>
+                <p>Arrow Keys / WASD - Move</p>
+                <p>SPACE - Pick up / Place / Serve</p>
+                <p>E - Interact with stations</p>
+            </div>
+            <div id="current-order">
+                <h3>Current Customer Order:</h3>
+                <div id="order-display">No customers</div>
+            </div>
+        </div>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div id="game-over" class="hidden">
+            <h2>Day Complete!</h2>
+            <p>Final Score: <span id="final-score">0</span></p>
+            <p>Money Earned: $<span id="final-money">0</span></p>
+            <button id="next-day">Next Day</button>
+            <button id="restart">Restart</button>
+        </div>
+    </div>
+
+    <script src="ingredients.js"></script>
+    <script src="cookingStation.js"></script>
+    <script src="customer.js"></script>
+    <script src="player.js"></script>
+    <script src="ui.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
