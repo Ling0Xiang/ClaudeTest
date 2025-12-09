@@ -1,4 +1,4 @@
-// Ingredient types and recipes
+// Ingredient types and recipes for crepes
 class Ingredient {
     constructor(type, color) {
         this.type = type;
@@ -8,42 +8,51 @@ class Ingredient {
 }
 
 const INGREDIENT_TYPES = {
-    BREAD: { name: 'Bread', color: '#D2691E' },
-    MEAT: { name: 'Meat', color: '#8B4513' },
-    LETTUCE: { name: 'Lettuce', color: '#90EE90' },
-    TOMATO: { name: 'Tomato', color: '#FF6347' },
-    CHEESE: { name: 'Cheese', color: '#FFD700' },
-    SAUCE: { name: 'Sauce', color: '#8B0000' }
+    BATTER: { name: 'Batter', color: '#F5DEB3' },
+    STRAWBERRY: { name: 'Strawberry', color: '#FF6B9D' },
+    BANANA: { name: 'Banana', color: '#FFE135' },
+    CHOCOLATE: { name: 'Chocolate', color: '#3B2414' },
+    WHIPPED_CREAM: { name: 'Whipped Cream', color: '#FFFACD' },
+    NUTELLA: { name: 'Nutella', color: '#4A2511' },
+    BLUEBERRY: { name: 'Blueberry', color: '#4169E1' },
+    SUGAR: { name: 'Sugar', color: '#FFFFFF' }
 };
 
 const RECIPES = {
-    BURGER: {
-        name: 'Burger',
-        ingredients: ['BREAD', 'MEAT', 'LETTUCE', 'TOMATO', 'BREAD'],
-        cookMeat: true,
-        price: 15,
-        time: 20
-    },
-    SANDWICH: {
-        name: 'Sandwich',
-        ingredients: ['BREAD', 'LETTUCE', 'TOMATO', 'CHEESE', 'BREAD'],
-        cookMeat: false,
-        price: 10,
+    CLASSIC: {
+        name: 'Classic Crepe',
+        ingredients: ['BATTER', 'SUGAR'],
+        needsCooking: true,
+        price: 8,
         time: 15
     },
-    MEATLOVERS: {
-        name: 'Meat Lovers',
-        ingredients: ['BREAD', 'MEAT', 'MEAT', 'CHEESE', 'SAUCE', 'BREAD'],
-        cookMeat: true,
-        price: 20,
+    STRAWBERRY_DREAM: {
+        name: 'Strawberry Dream',
+        ingredients: ['BATTER', 'STRAWBERRY', 'WHIPPED_CREAM', 'SUGAR'],
+        needsCooking: true,
+        price: 12,
+        time: 20
+    },
+    CHOCOLATE_BANANA: {
+        name: 'Chocolate Banana',
+        ingredients: ['BATTER', 'BANANA', 'CHOCOLATE', 'WHIPPED_CREAM'],
+        needsCooking: true,
+        price: 14,
+        time: 22
+    },
+    NUTELLA_DELIGHT: {
+        name: 'Nutella Delight',
+        ingredients: ['BATTER', 'NUTELLA', 'BANANA', 'STRAWBERRY'],
+        needsCooking: true,
+        price: 15,
         time: 25
     },
-    VEGGIE: {
-        name: 'Veggie Special',
-        ingredients: ['BREAD', 'LETTUCE', 'TOMATO', 'LETTUCE', 'CHEESE', 'BREAD'],
-        cookMeat: false,
-        price: 12,
-        time: 18
+    BERRY_BLAST: {
+        name: 'Berry Blast',
+        ingredients: ['BATTER', 'STRAWBERRY', 'BLUEBERRY', 'WHIPPED_CREAM', 'SUGAR'],
+        needsCooking: true,
+        price: 16,
+        time: 28
     }
 };
 

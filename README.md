@@ -1,15 +1,17 @@
-# Cooking Master - 2D Cooking Game
+# Crepe Master - Point and Click Cooking Game
 
-A fun 2D cooking simulation game inspired by Shawarma Legend. Run your own restaurant, serve customers, and earn money!
+A delightful point-and-click crepe making game inspired by Shawarma Legend. Run your own crepe stand, serve customers with delicious crepes, and earn money!
 
 ## Features
 
-- **Dynamic Customer System**: Customers arrive with different orders and patience levels
-- **Multiple Recipes**: Create burgers, sandwiches, meat lovers specials, and veggie dishes
-- **Cooking Mechanics**: Grill meat, prepare ingredients, and assemble dishes
-- **Time Management**: Each day lasts 60 seconds - serve as many customers as possible
-- **Scoring System**: Earn money and bonuses for fast service
-- **Progressive Gameplay**: Continue through multiple days building your score
+- **Point-and-Click Gameplay**: No movement needed - click to interact with everything
+- **Intuitive Cooking System**: Cook crepes and add toppings with simple clicks
+- **Customer Orders**: Customers arrive with specific crepe requests and patience levels
+- **5 Delicious Recipes**: From Classic Crepes to Berry Blast specials
+- **Visual Feedback**: Hover effects, cooking animations, and progress bars
+- **Time Management**: 90 seconds per day to serve as many customers as possible
+- **Scoring System**: Earn money and bonuses for fast, accurate service
+- **Progressive Gameplay**: Continue through multiple days building your crepe empire
 
 ## How to Play
 
@@ -20,65 +22,99 @@ A fun 2D cooking simulation game inspired by Shawarma Legend. Run your own resta
 
 ### Controls
 
-- **Arrow Keys** or **WASD**: Move your character
-- **SPACE**: Pick up ingredients, interact with stations, serve food
-- **E**: Clear the prep table if you make a mistake
+**Simple Point-and-Click!**
+- Click on ingredient buttons to select ingredients
+- Click on the crepe pan to transfer cooked crepes
+- Click SERVE button to serve completed orders
+- Click CLEAR button to start over if you make a mistake
 
 ### Game Flow
 
-1. **Check Customer Orders**: Look at the order bubble next to customers (top right area)
-2. **Gather Ingredients**: Walk to ingredient stations at the top and press SPACE to pick them up
-3. **Cook Meat** (if needed): Take meat to the GRILL station, wait for it to cook (watch the progress bar)
-4. **Assemble Food**: Go to the PREP TABLE and press SPACE to add ingredients in the correct order
-5. **Serve**: Pick up the completed dish and take it to the SERVE station
-6. **Earn Money**: Correct orders earn money, with bonuses for fast service!
+1. **Check the Customer Order** (top right corner)
+   - See what crepe the customer wants
+   - Note the price and ingredients needed
 
-### Ingredient Stations
+2. **Click BATTER Button** (top left)
+   - This adds batter to the crepe pan
+   - Watch the cooking progress bar
+   - Wait 3 seconds for it to cook
 
-- **BREAD**: Base for most recipes
-- **MEAT**: Needs to be cooked on the grill first
-- **LETTUCE**: Fresh vegetable
-- **TOMATO**: Fresh vegetable
-- **CHEESE**: Dairy product
-- **SAUCE**: Flavor enhancer
+3. **Transfer to Prep Plate**
+   - Once the crepe shows "READY!", click on the pan
+   - The cooked crepe moves to the prep plate
 
-### Recipes
+4. **Add Toppings**
+   - Click ingredient buttons to add toppings
+   - Toppings appear on the prep plate
+   - Must match the exact order shown in the recipe
 
-#### Burger ($15)
-- Bread → Meat (cooked) → Lettuce → Tomato → Bread
+5. **Serve the Customer**
+   - Click the green SERVE button
+   - Correct orders earn money + speed bonuses!
+   - Wrong orders waste the food
 
-#### Sandwich ($10)
-- Bread → Lettuce → Tomato → Cheese → Bread
+### Ingredients
 
-#### Meat Lovers ($20)
-- Bread → Meat (cooked) → Meat (cooked) → Cheese → Sauce → Bread
+- **🥞 Batter**: The base crepe (must cook in pan first)
+- **🍓 Strawberry**: Fresh strawberry topping
+- **🍌 Banana**: Sliced banana topping
+- **🍫 Chocolate**: Rich chocolate sauce
+- **🍦 Whipped Cream**: Light and fluffy cream
+- **🥜 Nutella**: Hazelnut chocolate spread
+- **🫐 Blueberry**: Fresh blueberry topping
+- **🍚 Sugar**: Sweet finishing touch
 
-#### Veggie Special ($12)
-- Bread → Lettuce → Tomato → Lettuce → Cheese → Bread
+### Crepe Recipes
+
+#### Classic Crepe ($8)
+- Batter → Sugar
+- Quick and simple!
+
+#### Strawberry Dream ($12)
+- Batter → Strawberry → Whipped Cream → Sugar
+- A fruity favorite
+
+#### Chocolate Banana ($14)
+- Batter → Banana → Chocolate → Whipped Cream
+- Sweet and satisfying
+
+#### Nutella Delight ($15)
+- Batter → Nutella → Banana → Strawberry
+- Rich and delicious
+
+#### Berry Blast ($16)
+- Batter → Strawberry → Blueberry → Whipped Cream → Sugar
+- The ultimate berry experience
 
 ### Tips for Success
 
-1. **Check Orders First**: Always look at what the customer wants before starting
-2. **Cook Meat Early**: Put meat on the grill while gathering other ingredients
-3. **Watch Patience Bars**: Green is good, red means the customer is about to leave
-4. **Speed Bonuses**: Serve customers quickly for extra money (up to $5 bonus)
-5. **Order Matters**: Ingredients must be added in the exact order shown in the recipe
-6. **Use E to Clear**: Made a mistake? Press E at the prep table to start over
+1. **Start Cooking Early**: Click BATTER immediately when you see an order
+2. **While Crepe Cooks**: Read the full order and plan your toppings
+3. **Exact Order Matters**: Add ingredients in the EXACT order shown
+4. **Watch Patience Bars**:
+   - Green = Happy customer
+   - Yellow = Getting impatient
+   - Red = About to leave!
+5. **Speed Bonuses**:
+   - Super fast (>75% patience left): +$5
+   - Fast (>50% patience): +$3
+   - Moderate (>25% patience): +$1
+6. **Use CLEAR Button**: Made a mistake? Clear and start fresh!
+7. **One at a Time**: Focus on one order at a time for best results
 
 ### Scoring
 
-- Each successful order earns the recipe's base price
-- Speed bonuses:
-  - Super fast (>75% patience): +$5
-  - Fast (>50% patience): +$3
-  - Moderate (>25% patience): +$1
-- Wrong orders earn nothing and waste the food
+- Each correct order earns the recipe's base price
+- Speed bonuses add extra money for quick service
+- Wrong orders earn $0 and the food is wasted
+- Your money accumulates across days
 
 ### Day System
 
-- Each day lasts 60 seconds
-- At the end of the day, view your stats and choose to continue to the next day
-- Your money and score accumulate across days
+- Each day lasts 90 seconds
+- Customers spawn automatically every 8 seconds (max 3 at a time)
+- At day's end, view your stats
+- Choose "Next Day" to continue or "Restart" to begin fresh
 - Try to beat your high score!
 
 ## Technical Details
@@ -86,15 +122,15 @@ A fun 2D cooking simulation game inspired by Shawarma Legend. Run your own resta
 ### File Structure
 
 ```
-cooking-game/
+crepe-master/
 ├── index.html          # Main HTML file
-├── styles.css          # Game styling
-├── game.js            # Main game engine and loop
-├── player.js          # Player character logic
+├── styles.css          # Game styling (pink/crepe theme)
+├── game.js            # Main game engine and click handling
+├── player.js          # Stationary chef character
 ├── customer.js        # Customer and order management
-├── cookingStation.js  # Cooking stations and work areas
-├── ingredients.js     # Ingredient types and recipes
-└── ui.js             # UI management and updates
+├── cookingStation.js  # Crepe pan, prep plate, and buttons
+├── ingredients.js     # Crepe ingredients and recipes
+└── ui.js             # UI management and notifications
 ```
 
 ### Browser Compatibility
@@ -102,38 +138,66 @@ cooking-game/
 - Works in all modern browsers (Chrome, Firefox, Safari, Edge)
 - Requires JavaScript enabled
 - No external dependencies - pure vanilla JavaScript
+- Responsive mouse hover effects
 
 ### Technologies Used
 
 - HTML5 Canvas for rendering
-- Vanilla JavaScript for game logic
-- CSS3 for UI styling
-- RequestAnimationFrame for smooth game loop
+- Vanilla JavaScript for game logic and click detection
+- CSS3 for UI styling with crepe-themed colors
+- RequestAnimationFrame for smooth animations
 
 ## Customization
 
 You can easily customize the game by modifying:
 
 - **Recipes**: Edit `RECIPES` object in `ingredients.js`
-- **Ingredient Types**: Add new ingredients in `INGREDIENT_TYPES` in `ingredients.js`
-- **Day Duration**: Change `dayTime` in `game.js`
-- **Customer Spawn Rate**: Modify `spawnInterval` in `customer.js`
-- **Player Speed**: Adjust `speed` property in `player.js`
+  - Add new crepe combinations
+  - Adjust prices and time limits
+
+- **Ingredients**: Add new toppings in `INGREDIENT_TYPES` in `ingredients.js`
+  - Choose colors for visual representation
+
+- **Day Duration**: Change `dayTime` in `game.js` (default: 90 seconds)
+
+- **Customer Spawn Rate**: Modify `spawnInterval` in `customer.js` (default: 8 seconds)
+
+- **Cooking Speed**: Adjust `cookDuration` in `CrepePan` class (default: 3000ms)
+
+- **Colors**: Edit gradient and theme colors in `styles.css`
+
+## Gameplay Tips
+
+### Efficient Workflow
+
+1. **Parallel Processing**: While one crepe cooks, prepare to add toppings
+2. **Read Ahead**: Check upcoming customer orders
+3. **Prioritize**: Serve customers with lower patience first
+4. **Stay Calm**: Mistakes happen - use CLEAR and try again
+
+### Common Mistakes to Avoid
+
+- ❌ Adding toppings before transferring crepe to plate
+- ❌ Clicking BATTER while pan is already cooking
+- ❌ Adding ingredients in wrong order
+- ❌ Forgetting to click pan to transfer crepe
+- ❌ Serving incomplete orders
 
 ## Future Enhancements
 
 Potential features to add:
-- Power-ups and upgrades
-- More complex recipes
-- Multiple difficulty levels
-- Sound effects and music
+- Multiple difficulty levels (faster customers, more complex orders)
+- Upgrades (faster cooking, patience boosters)
+- More crepe varieties (savory crepes, ice cream toppings)
+- Combo bonuses for consecutive perfect orders
+- Sound effects and background music
 - Save/load game progress
+- Daily challenges and achievements
 - Leaderboard system
-- Restaurant upgrades
 
 ## Credits
 
-Created as a 2D cooking simulation game inspired by Shawarma Legend.
+Created as a point-and-click crepe cooking simulation game inspired by Shawarma Legend.
 
 ## License
 
@@ -141,4 +205,4 @@ Free to use and modify for personal and educational purposes.
 
 ---
 
-**Enjoy cooking and serving customers! 🍔👨‍🍳**
+**Enjoy making delicious crepes! 🥞👨‍🍳✨**

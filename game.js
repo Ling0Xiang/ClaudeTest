@@ -1,4 +1,4 @@
-// Main Game Engine
+// Main Game Engine - Point and Click Crepe Game
 class Game {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
@@ -7,32 +7,46 @@ class Game {
         this.keys = {};
         this.lastTime = 0;
         this.running = false;
+        this.mouseX = 0;
+        this.mouseY = 0;
 
         // Game state
         this.score = 0;
         this.money = 0;
         this.day = 1;
-        this.dayTime = 60; // 60 seconds per day
+        this.dayTime = 90; // 90 seconds per day for crepe making
         this.currentTime = this.dayTime;
 
         // Game objects
-        this.player = new Player(100, 250);
+        this.player = new Player(50, 420); // Stationary position
         this.customerManager = new CustomerManager();
         this.ui = new UIManager();
 
-        // Cooking stations
-        this.ingredientStations = [
-            new CookingStation(50, 50, 80, 60, 'BREAD', '#D2691E'),
-            new CookingStation(150, 50, 80, 60, 'MEAT', '#8B4513'),
-            new CookingStation(250, 50, 80, 60, 'LETTUCE', '#90EE90'),
-            new CookingStation(350, 50, 80, 60, 'TOMATO', '#FF6347'),
-            new CookingStation(450, 50, 80, 60, 'CHEESE', '#FFD700'),
-            new CookingStation(550, 50, 80, 60, 'SAUCE', '#8B0000')
+        // Crepe making stations
+        this.crepePan = new CrepePan(200, 300, 80);
+        this.prepPlate = new PrepPlate(450, 300, 70);
+
+        // Ingredient buttons (top area)
+        const btnWidth = 90;
+        const btnHeight = 65;
+        const startX = 50;
+        const startY = 30;
+        const spacing = 95;
+
+        this.ingredientButtons = [
+            new IngredientButton(startX, startY, btnWidth, btnHeight, 'BATTER'),
+            new IngredientButton(startX + spacing, startY, btnWidth, btnHeight, 'STRAWBERRY'),
+            new IngredientButton(startX + spacing * 2, startY, btnWidth, btnHeight, 'BANANA'),
+            new IngredientButton(startX + spacing * 3, startY, btnWidth, btnHeight, 'CHOCOLATE'),
+            new IngredientButton(startX, startY + 70, btnWidth, btnHeight, 'WHIPPED_CREAM'),
+            new IngredientButton(startX + spacing, startY + 70, btnWidth, btnHeight, 'NUTELLA'),
+            new IngredientButton(startX + spacing * 2, startY + 70, btnWidth, btnHeight, 'BLUEBERRY'),
+            new IngredientButton(startX + spacing * 3, startY + 70, btnWidth, btnHeight, 'SUGAR')
         ];
 
-        this.grillStation = new CookingStation(50, 450, 100, 80, 'GRILL', '#555');
-        this.workStation = new WorkStation(200, 450, 200, 80);
-        this.servingStation = new ServingStation(450, 450, 150, 80);
+        // Control buttons
+        this.serveButton = new ServeButton(600, 450, 150, 50);
+        this.clearButton = new ClearButton(600, 510, 150, 40);
 
         // Notifications
         this.notifications = [];
@@ -42,26 +56,118 @@ class Game {
     }
 
     setupEventListeners() {
-        // Keyboard input
-        window.addEventListener('keydown', (e) => {
-            this.keys[e.key.toLowerCase()] = true;
-
-            // Handle interactions
-            if (e.key === ' ') {
-                e.preventDefault();
-                this.handleSpacePress();
-            } else if (e.key.toLowerCase() === 'e') {
-                this.handleInteraction();
-            }
+        // Mouse movement for hover effects
+        this.canvas.addEventListener('mousemove', (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            this.mouseX = e.clientX - rect.left;
+            this.mouseY = e.clientY - rect.top;
+            this.updateHoverStates();
         });
 
-        window.addEventListener('keyup', (e) => {
-            this.keys[e.key.toLowerCase()] = false;
+        // Mouse click for interactions
+        this.canvas.addEventListener('click', (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            this.handleClick(x, y);
         });
 
         // UI buttons
         document.getElementById('next-day').addEventListener('click', () => this.nextDay());
         document.getElementById('restart').addEventListener('click', () => this.restart());
+    }
+
+    updateHoverStates() {
+        // Update ingredient button hovers
+        this.ingredientButtons.forEach(btn => {
+            btn.setHovered(btn.contains(this.mouseX, this.mouseY));
+        });
+
+        // Update control button hovers
+        this.serveButton.setHovered(this.serveButton.contains(this.mouseX, this.mouseY));
+        this.clearButton.setHovered(this.clearButton.contains(this.mouseX, this.mouseY));
+
+        // Update canvas cursor
+        const isHoveringButton = this.ingredientButtons.some(btn => btn.hovered) ||
+                                this.serveButton.hovered ||
+                                this.clearButton.hovered ||
+                                this.crepePan.contains(this.mouseX, this.mouseY) ||
+                                this.prepPlate.contains(this.mouseX, this.mouseY);
+
+        this.canvas.style.cursor = isHoveringButton ? 'pointer' : 'default';
+    }
+
+    handleClick(x, y) {
+        // Check ingredient button clicks
+        for (let btn of this.ingredientButtons) {
+            if (btn.contains(x, y)) {
+                this.handleIngredientClick(btn.ingredientType);
+                return;
+            }
+        }
+
+        // Check crepe pan click (to add batter)
+        if (this.crepePan.contains(x, y)) {
+            // Try to transfer cooked crepe to prep plate
+            if (this.crepePan.isCooked && !this.prepPlate.hasCrepe) {
+                this.crepePan.removeCrepe();
+                this.prepPlate.addCrepe();
+                this.addNotification('Crepe ready for toppings!', '#2ecc71');
+            }
+            return;
+        }
+
+        // Check clear button
+        if (this.clearButton.contains(x, y)) {
+            if (this.prepPlate.hasCrepe) {
+                this.prepPlate.clear();
+                this.addNotification('Plate cleared', '#e74c3c');
+            }
+            return;
+        }
+
+        // Check serve button
+        if (this.serveButton.contains(x, y) && this.serveButton.enabled) {
+            this.handleServe();
+            return;
+        }
+    }
+
+    handleIngredientClick(ingredientType) {
+        if (ingredientType === 'BATTER') {
+            // Add batter to pan
+            if (this.crepePan.addBatter()) {
+                this.addNotification('Cooking crepe...', '#f39c12');
+            } else {
+                this.addNotification('Pan is busy!', '#e74c3c');
+            }
+        } else {
+            // Add topping to prep plate
+            if (this.prepPlate.addTopping(ingredientType)) {
+                this.addNotification('Added ' + INGREDIENT_TYPES[ingredientType].name, '#3498db');
+            } else {
+                this.addNotification('Need a crepe first!', '#e74c3c');
+            }
+        }
+    }
+
+    handleServe() {
+        const result = this.customerManager.serveCustomer(this.prepPlate.food);
+        if (result.success) {
+            const totalEarned = result.price + result.bonus;
+            this.money += totalEarned;
+            this.score += totalEarned;
+            this.ui.updateMoney(this.money);
+            this.ui.updateScore(this.score);
+            this.prepPlate.clear();
+            this.addNotification(`+$${totalEarned}!`, '#2ecc71');
+            if (result.bonus > 0) {
+                this.addNotification(`Speed bonus: +$${result.bonus}`, '#FFD700');
+            }
+        } else {
+            this.addNotification('Wrong order!', '#e74c3c');
+            this.prepPlate.clear();
+        }
     }
 
     init() {
@@ -96,13 +202,16 @@ class Game {
         }
 
         // Update game objects
-        this.player.update(deltaTime, this.keys);
         this.customerManager.update(deltaTime);
-        this.grillStation.update(deltaTime);
+        this.crepePan.update(deltaTime);
 
         // Update UI with current customer order
         const currentCustomer = this.customerManager.getCurrentCustomer();
         this.ui.updateCurrentOrder(currentCustomer);
+
+        // Enable/disable serve button
+        const hasFood = this.prepPlate.hasCrepe && this.prepPlate.food.ingredients.length > 0;
+        this.serveButton.setEnabled(hasFood && currentCustomer !== null);
 
         // Update notifications
         this.notifications = this.notifications.filter(n => {
@@ -114,22 +223,27 @@ class Game {
 
     draw() {
         // Clear canvas
-        this.ctx.fillStyle = '#f5f5f5';
+        this.ctx.fillStyle = '#F9E4D4';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Draw game area sections
+        // Draw background sections
         this.drawBackground();
 
-        // Draw stations
-        this.ingredientStations.forEach(station => station.draw(this.ctx));
-        this.grillStation.draw(this.ctx);
-        this.workStation.draw(this.ctx);
-        this.servingStation.draw(this.ctx);
+        // Draw ingredient buttons
+        this.ingredientButtons.forEach(btn => btn.draw(this.ctx));
+
+        // Draw cooking stations
+        this.crepePan.draw(this.ctx);
+        this.prepPlate.draw(this.ctx);
+
+        // Draw control buttons
+        this.serveButton.draw(this.ctx);
+        this.clearButton.draw(this.ctx);
 
         // Draw customers
         this.customerManager.draw(this.ctx);
 
-        // Draw player
+        // Draw player (stationary chef)
         this.player.draw(this.ctx);
 
         // Draw notifications
@@ -137,137 +251,50 @@ class Game {
             this.ui.showNotification(this.ctx, n.text, n.x, n.y, n.color);
         });
 
-        // Draw interaction hints
-        this.drawInteractionHints();
+        // Draw instructions
+        this.drawInstructions();
     }
 
     drawBackground() {
-        // Top area (ingredient stations)
-        this.ctx.fillStyle = '#e8e8e8';
-        this.ctx.fillRect(0, 0, 800, 130);
+        // Top ingredient area
+        this.ctx.fillStyle = '#E8DACC';
+        this.ctx.fillRect(0, 0, 800, 180);
+        this.ctx.strokeStyle = '#D4C4B0';
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeRect(0, 0, 800, 180);
 
-        // Middle area (walking space)
-        this.ctx.fillStyle = '#d0d0d0';
-        this.ctx.fillRect(0, 130, 800, 310);
+        // Middle cooking area
+        this.ctx.fillStyle = '#F5E6D3';
+        this.ctx.fillRect(0, 180, 800, 250);
 
-        // Bottom area (work stations)
-        this.ctx.fillStyle = '#e8e8e8';
-        this.ctx.fillRect(0, 440, 800, 160);
+        // Bottom area (player)
+        this.ctx.fillStyle = '#E0D0C0';
+        this.ctx.fillRect(0, 430, 800, 170);
 
-        // Grid lines
-        this.ctx.strokeStyle = '#ccc';
-        this.ctx.lineWidth = 1;
-        for (let i = 0; i < 800; i += 50) {
-            this.ctx.beginPath();
-            this.ctx.moveTo(i, 0);
-            this.ctx.lineTo(i, 600);
-            this.ctx.stroke();
-        }
-        for (let i = 0; i < 600; i += 50) {
-            this.ctx.beginPath();
-            this.ctx.moveTo(0, i);
-            this.ctx.lineTo(800, i);
-            this.ctx.stroke();
-        }
-    }
-
-    drawInteractionHints() {
-        this.ctx.fillStyle = 'rgba(255, 255, 0, 0.3)';
-        this.ctx.strokeStyle = '#FFD700';
+        // Decorative lines
+        this.ctx.strokeStyle = '#D4C4B0';
         this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, 180);
+        this.ctx.lineTo(800, 180);
+        this.ctx.moveTo(0, 430);
+        this.ctx.lineTo(800, 430);
+        this.ctx.stroke();
 
-        // Check which stations player is near
-        [...this.ingredientStations, this.grillStation].forEach(station => {
-            if (station.isNearby(this.player)) {
-                this.ctx.strokeRect(station.x - 2, station.y - 2, station.width + 4, station.height + 4);
-            }
-        });
-
-        if (this.workStation.isNearby(this.player)) {
-            this.ctx.strokeRect(this.workStation.x - 2, this.workStation.y - 2,
-                this.workStation.width + 4, this.workStation.height + 4);
-        }
-
-        if (this.servingStation.isNearby(this.player)) {
-            this.ctx.strokeRect(this.servingStation.x - 2, this.servingStation.y - 2,
-                this.servingStation.width + 4, this.servingStation.height + 4);
-        }
+        // Title
+        this.ctx.fillStyle = '#8B4513';
+        this.ctx.font = 'bold 18px Arial';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText('INGREDIENTS', 10, 20);
     }
 
-    handleSpacePress() {
-        // Interaction with ingredient stations
-        for (let station of this.ingredientStations) {
-            if (station.isNearby(this.player) && !this.player.hasItem()) {
-                this.player.pickUpItem(station.type);
-                this.addNotification('Picked up ' + INGREDIENT_TYPES[station.type].name, '#2ecc71');
-                return;
-            }
-        }
-
-        // Interaction with grill
-        if (this.grillStation.isNearby(this.player)) {
-            if (this.player.heldItem === 'MEAT' && !this.grillStation.item) {
-                // Place meat on grill
-                this.grillStation.item = this.player.dropItem();
-                this.grillStation.cookingTime = 0;
-                this.addNotification('Cooking meat...', '#f39c12');
-            } else if (this.grillStation.item && !this.player.hasItem() && this.grillStation.isCookingComplete()) {
-                // Pick up cooked meat
-                this.player.pickUpItem(this.grillStation.item);
-                this.grillStation.item = null;
-                this.grillStation.cookingTime = 0;
-                this.addNotification('Picked up cooked meat!', '#2ecc71');
-            }
-            return;
-        }
-
-        // Interaction with work station
-        if (this.workStation.isNearby(this.player)) {
-            if (this.player.heldItem) {
-                // Add ingredient to food
-                this.workStation.food.addIngredient(this.player.heldItem);
-                this.addNotification('Added ' + INGREDIENT_TYPES[this.player.heldItem].name, '#3498db');
-                this.player.dropItem();
-            } else if (this.workStation.food.ingredients.length > 0 && !this.player.heldFood) {
-                // Pick up completed food
-                const food = new Food();
-                food.ingredients = [...this.workStation.food.ingredients];
-                this.player.pickUpFood(food);
-                this.workStation.food.clear();
-                this.addNotification('Picked up dish!', '#9b59b6');
-            }
-            return;
-        }
-
-        // Interaction with serving station
-        if (this.servingStation.isNearby(this.player) && this.player.heldFood) {
-            const result = this.customerManager.serveCustomer(this.player.heldFood);
-            if (result.success) {
-                const totalEarned = result.price + result.bonus;
-                this.money += totalEarned;
-                this.score += totalEarned;
-                this.ui.updateMoney(this.money);
-                this.ui.updateScore(this.score);
-                this.player.dropFood();
-                this.addNotification(`+$${totalEarned}!`, '#2ecc71');
-                if (result.bonus > 0) {
-                    this.addNotification(`Speed bonus: +$${result.bonus}`, '#FFD700');
-                }
-            } else {
-                this.addNotification('Wrong order!', '#e74c3c');
-                this.player.dropFood();
-            }
-            return;
-        }
-    }
-
-    handleInteraction() {
-        // Clear work station
-        if (this.workStation.isNearby(this.player)) {
-            if (this.workStation.food.ingredients.length > 0) {
-                this.workStation.food.clear();
-                this.addNotification('Cleared prep table', '#95a5a6');
-            }
+    drawInstructions() {
+        // Show hint when pan is clicked
+        if (this.crepePan.isCooked && !this.prepPlate.hasCrepe) {
+            this.ctx.fillStyle = 'rgba(46, 204, 113, 0.8)';
+            this.ctx.font = 'bold 12px Arial';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('Click pan to move crepe →', this.crepePan.x, this.crepePan.y - 100);
         }
     }
 
@@ -275,8 +302,8 @@ class Game {
         this.notifications.push({
             text: text,
             x: 400,
-            y: 300,
-            life: 2000,
+            y: 250,
+            life: 1500,
             color: color
         });
     }
@@ -290,10 +317,8 @@ class Game {
         this.day++;
         this.currentTime = this.dayTime;
         this.customerManager = new CustomerManager();
-        this.workStation.food.clear();
-        this.grillStation.item = null;
-        this.player.heldItem = null;
-        this.player.heldFood = null;
+        this.crepePan.reset();
+        this.prepPlate.clear();
         this.ui.updateDay(this.day);
         this.ui.hideGameOver();
         this.running = true;
@@ -307,9 +332,9 @@ class Game {
         this.day = 1;
         this.currentTime = this.dayTime;
         this.customerManager = new CustomerManager();
-        this.player = new Player(100, 250);
-        this.workStation.food.clear();
-        this.grillStation.item = null;
+        this.player = new Player(50, 420);
+        this.crepePan.reset();
+        this.prepPlate.clear();
         this.ui.updateScore(this.score);
         this.ui.updateMoney(this.money);
         this.ui.updateDay(this.day);
