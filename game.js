@@ -19,7 +19,7 @@ class Game {
 
         // Game objects
         this.player = new Player(50, 420); // Stationary position
-        this.customerManager = new CustomerManager();
+        this.customerManager = new CustomerManager(this.day);
         this.ui = new UIManager();
 
         // Crepe making stations
@@ -316,7 +316,7 @@ class Game {
     nextDay() {
         this.day++;
         this.currentTime = this.dayTime;
-        this.customerManager = new CustomerManager();
+        this.customerManager = new CustomerManager(this.day);
         this.crepePan.reset();
         this.prepPlate.clear();
         this.ui.updateDay(this.day);
@@ -331,7 +331,7 @@ class Game {
         this.money = 0;
         this.day = 1;
         this.currentTime = this.dayTime;
-        this.customerManager = new CustomerManager();
+        this.customerManager = new CustomerManager(this.day);
         this.player = new Player(50, 420);
         this.crepePan.reset();
         this.prepPlate.clear();

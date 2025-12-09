@@ -7,7 +7,8 @@ A delightful point-and-click crepe making game inspired by Shawarma Legend. Run 
 - **Point-and-Click Gameplay**: No movement needed - click to interact with everything
 - **Intuitive Cooking System**: Cook crepes and add toppings with simple clicks
 - **Customer Orders**: Customers arrive with specific crepe requests and patience levels
-- **5 Delicious Recipes**: From Classic Crepes to Berry Blast specials
+- **6 Delicious Recipes**: Unlock new recipes each day as you progress!
+- **Progressive Recipe System**: Start simple on Day 1, unlock complex recipes by Day 6
 - **Visual Feedback**: Hover effects, cooking animations, and progress bars
 - **Time Management**: 90 seconds per day to serve as many customers as possible
 - **Scoring System**: Earn money and bonuses for fast, accurate service
@@ -66,23 +67,29 @@ A delightful point-and-click crepe making game inspired by Shawarma Legend. Run 
 
 ### Crepe Recipes
 
-#### Classic Crepe ($8)
+Recipes unlock as you progress through days!
+
+#### Whipped Cream Crepe ($10) - Day 1
+- Batter → Whipped Cream
+- Perfect for beginners!
+
+#### Classic Crepe ($8) - Day 2
 - Batter → Sugar
 - Quick and simple!
 
-#### Strawberry Dream ($12)
+#### Strawberry Dream ($12) - Day 3
 - Batter → Strawberry → Whipped Cream → Sugar
 - A fruity favorite
 
-#### Chocolate Banana ($14)
+#### Chocolate Banana ($14) - Day 4
 - Batter → Banana → Chocolate → Whipped Cream
 - Sweet and satisfying
 
-#### Nutella Delight ($15)
+#### Nutella Delight ($15) - Day 5
 - Batter → Nutella → Banana → Strawberry
 - Rich and delicious
 
-#### Berry Blast ($16)
+#### Berry Blast ($16) - Day 6+
 - Batter → Strawberry → Blueberry → Whipped Cream → Sugar
 - The ultimate berry experience
 
@@ -113,8 +120,10 @@ A delightful point-and-click crepe making game inspired by Shawarma Legend. Run 
 
 - Each day lasts 90 seconds
 - Customers spawn automatically every 8 seconds (max 3 at a time)
+- **New recipes unlock each day!** Start with simple Whipped Cream Crepes on Day 1
 - At day's end, view your stats
 - Choose "Next Day" to continue or "Restart" to begin fresh
+- As you progress, more complex (and profitable!) recipes become available
 - Try to beat your high score!
 
 ## Technical Details

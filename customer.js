@@ -115,16 +115,21 @@ class Customer {
 }
 
 class CustomerManager {
-    constructor() {
+    constructor(currentDay = 1) {
         this.customers = [];
         this.spawnTimer = 0;
         this.spawnInterval = 8000; // Spawn every 8 seconds
         this.maxCustomers = 3;
+        this.currentDay = currentDay;
         this.customerPositions = [
             { x: 650, y: 100 },
             { x: 650, y: 200 },
             { x: 650, y: 300 }
         ];
+    }
+
+    setDay(day) {
+        this.currentDay = day;
     }
 
     update(deltaTime) {
@@ -148,10 +153,16 @@ class CustomerManager {
         );
 
         if (availablePos) {
-            const recipeKeys = Object.keys(RECIPES);
-            const randomRecipe = RECIPES[recipeKeys[Math.floor(Math.random() * recipeKeys.length)]];
-            const customer = new Customer(availablePos.x, availablePos.y, randomRecipe);
-            this.customers.push(customer);
+            // Filter recipes that are unlocked for current day
+            const availableRecipes = Object.values(RECIPES).filter(recipe =>
+                recipe.unlockDay <= this.currentDay
+            );
+
+            if (availableRecipes.length > 0) {
+                const randomRecipe = availableRecipes[Math.floor(Math.random() * availableRecipes.length)];
+                const customer = new Customer(availablePos.x, availablePos.y, randomRecipe);
+                this.customers.push(customer);
+            }
         }
     }
 

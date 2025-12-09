@@ -19,40 +19,53 @@ const INGREDIENT_TYPES = {
 };
 
 const RECIPES = {
+    WHIPPED_CREAM_CREPE: {
+        name: 'Whipped Cream Crepe',
+        ingredients: ['BATTER', 'WHIPPED_CREAM'],
+        needsCooking: true,
+        price: 10,
+        time: 15,
+        unlockDay: 1
+    },
     CLASSIC: {
         name: 'Classic Crepe',
         ingredients: ['BATTER', 'SUGAR'],
         needsCooking: true,
         price: 8,
-        time: 15
+        time: 15,
+        unlockDay: 2
     },
     STRAWBERRY_DREAM: {
         name: 'Strawberry Dream',
         ingredients: ['BATTER', 'STRAWBERRY', 'WHIPPED_CREAM', 'SUGAR'],
         needsCooking: true,
         price: 12,
-        time: 20
+        time: 20,
+        unlockDay: 3
     },
     CHOCOLATE_BANANA: {
         name: 'Chocolate Banana',
         ingredients: ['BATTER', 'BANANA', 'CHOCOLATE', 'WHIPPED_CREAM'],
         needsCooking: true,
         price: 14,
-        time: 22
+        time: 22,
+        unlockDay: 4
     },
     NUTELLA_DELIGHT: {
         name: 'Nutella Delight',
         ingredients: ['BATTER', 'NUTELLA', 'BANANA', 'STRAWBERRY'],
         needsCooking: true,
         price: 15,
-        time: 25
+        time: 25,
+        unlockDay: 5
     },
     BERRY_BLAST: {
         name: 'Berry Blast',
         ingredients: ['BATTER', 'STRAWBERRY', 'BLUEBERRY', 'WHIPPED_CREAM', 'SUGAR'],
         needsCooking: true,
         price: 16,
-        time: 28
+        time: 28,
+        unlockDay: 6
     }
 };
 
